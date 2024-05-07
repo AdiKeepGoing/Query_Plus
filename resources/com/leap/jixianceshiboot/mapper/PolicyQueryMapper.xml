@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leap.jixianceshiboot.mapper.PolicyQueryMapper">
+    <!--动态sql-->
+    <select id="getPolicy" resultType="com.leap.jixianceshiboot.entity.Policy">
+        select * from policy
+        <where>
+            <if test="name!=null">
+                name like CONCAT('%', #{name}, '%')
+            </if>
+
+            <if test="document!=null">
+                and document=#{document}
+            </if>
+
+            <if test="organ!=null">
+                and organ=#{organ}
+            </if>
+
+            <if test="text!=null">
+                and text like CONCAT('%', #{text}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findPolicyCountsByType" resultType="com.leap.jixianceshiboot.entity.PolicyTypeCount">
+        SELECT type, COUNT(*) as count
+        FROM policy
+        GROUP BY type
+    </select>
+
+    <select id="getPolicy1" resultType="com.leap.jixianceshiboot.entity.Policy">
+        select * from policy where type = #{type}
+    </select>
+
+
+</mapper>
